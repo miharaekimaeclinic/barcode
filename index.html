@@ -33,14 +33,14 @@
       gap: 1em;
     }
     #idInput {
-      flex: 2;
+      width: 50%;
       font-size: 1.5em;
       padding: 0.6em;
       border-radius: 8px;
       border: 1px solid #ccc;
     }
     #saveButton {
-      flex: 1;
+      width: 50%;
       font-size: 1.5em;
       padding: 0.6em;
       border: none;
@@ -71,7 +71,7 @@
   </header>
 
   <div id="inputArea">
-    <input type="text" id="idInput" placeholder="カルテIDを入力">
+    <input type="text" id="idInput" placeholder="カルテIDを入力" maxlength="5">
     <button id="saveButton" onclick="saveAndShow()">保存</button>
   </div>
 
