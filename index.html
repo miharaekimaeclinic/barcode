@@ -2,87 +2,44 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>診察券バーコード | clinic-barcode</title>
-  <script src="https://cdn.jsdelivr.net/jsbarcode/3.11.5/JsBarcode.all.min.js"></script>
+  <title>診察券バーコード</title>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
   <style>
     body { font-family: sans-serif; text-align: center; padding: 2em; }
-    input, button { font-size: 1.2em; margin: .5em; padding: .4em; }
+    input, button { font-size: 1.2em; margin: 1em; padding: 0.5em; }
     #barcode { margin-top: 2em; }
-    #switchBtn { margin-top: 1em; }
   </style>
 </head>
 <body>
-  <h2>clinic‑barcode ＜診察券バーコード＞</h2>
-
-  <div id="main">
-    <select id="idSelect" style="font-size:1.1em;"></select>
-    <div>
-      <input type="text" id="newId" placeholder="カルテIDを入力">
-      <input type="text" id="newLabel" placeholder="名前（例：「母」「自分」）">
-      <button onclick="addEntry()">追加して表示</button>
-    </div>
-  </div>
-
+  <h2>診察券バーコード</h2>
+  <input type="text" id="idInput" placeholder="カルテIDを入力">
+  <button onclick="saveAndShow()">保存して表示</button>
   <svg id="barcode"></svg>
-  <button id="switchBtn" onclick="showAll()">登録ID一覧</button>
 
   <script>
-    const STORAGE_KEY = "clinicbarcode_entries";
-
-    function loadEntries() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : {};
-    }
-    function saveEntries(obj) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(obj));
-    }
-
-    function rebuildSelect(selected=null) {
-      const sel = document.getElementById("idSelect");
-      sel.innerHTML = "";
-      const entries = loadEntries();
-      for (const [label, id] of Object.entries(entries)) {
-        const opt = document.createElement("option");
-        opt.value = id;
-        opt.textContent = `${label}：${id}`;
-        sel.appendChild(opt);
-      }
-      if (sel.options.length > 0) {
-        sel.value = selected || sel.options[0].value;
-        showBarcode(sel.value);
+    function saveAndShow() {
+      const id = document.getElementById("idInput").value;
+      if (id) {
+        localStorage.setItem("karute_id", id);
+        showBarcode(id);
       }
     }
 
     function showBarcode(id) {
-      JsBarcode("#barcode", id, { format: "CODE128", displayValue: true });
-      document.getElementById("idSelect").value = id;
+      JsBarcode("#barcode", id, {
+        format: "CODE128",
+        displayValue: true,
+        fontSize: 18,
+        height: 80
+      });
     }
 
-    function addEntry() {
-      const id = document.getElementById("newId").value.trim();
-      const label = document.getElementById("newLabel").value.trim();
-      if (!id || !label) {
-        alert("IDと名前の両方を入力してください。");
-        return;
-      }
-      const entries = loadEntries();
-      entries[label] = id;
-      saveEntries(entries);
-      document.getElementById("newId").value = "";
-      document.getElementById("newLabel").value = "";
-      rebuildSelect(id);
+    // 初期表示（保存済みIDがあれば）
+    const savedId = localStorage.getItem("karute_id");
+    if (savedId) {
+      document.getElementById("idInput").value = savedId;
+      showBarcode(savedId);
     }
-
-    function showAll() {
-      const sel = document.getElementById("idSelect");
-      const id = sel.value;
-      showBarcode(id);
-    }
-
-    document.addEventListener("DOMContentLoaded", () => rebuildSelect());
-    document.getElementById("idSelect").addEventListener("change", (e) => {
-      showBarcode(e.target.value);
-    });
   </script>
 </body>
 </html>
