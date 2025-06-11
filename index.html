@@ -18,32 +18,37 @@
       flex-direction: column;
     }
     header {
-      padding: 1em;
+      padding: 0.5em;
       text-align: center;
       background-color: #f0f0f0;
     }
-    #inputArea {
-      padding: 1.5em;
-      text-align: center;
+    header h2 {
+      font-size: 1.8em;
+      margin: 0;
     }
-    input[type="text"] {
-      width: 90%;
+    #inputArea {
+      padding: 0.5em 1em;
+      display: flex;
+      justify-content: space-between;
+      gap: 1em;
+    }
+    #idInput {
+      flex: 2;
       font-size: 1.5em;
-      padding: 0.8em;
-      margin-bottom: 1em;
+      padding: 0.6em;
       border-radius: 8px;
       border: 1px solid #ccc;
     }
-    button {
-      width: 90%;
+    #saveButton {
+      flex: 1;
       font-size: 1.5em;
-      padding: 0.8em;
+      padding: 0.6em;
       border: none;
       border-radius: 8px;
       background-color: #007bff;
       color: white;
     }
-    button:active {
+    #saveButton:active {
       background-color: #0056b3;
     }
     #barcodeArea {
@@ -67,7 +72,7 @@
 
   <div id="inputArea">
     <input type="text" id="idInput" placeholder="カルテIDを入力">
-    <button onclick="saveAndShow()">保存して表示</button>
+    <button id="saveButton" onclick="saveAndShow()">保存</button>
   </div>
 
   <div id="barcodeArea">
