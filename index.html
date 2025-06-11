@@ -3,10 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>診察券バーコード</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+    }
     html, body {
+      margin: 0;
+      padding: 0;
       height: 100%;
       font-family: sans-serif;
       display: flex;
@@ -18,13 +23,28 @@
       background-color: #f0f0f0;
     }
     #inputArea {
-      padding: 1em;
+      padding: 1.5em;
       text-align: center;
     }
-    input, button {
-      font-size: 1.2em;
-      padding: 0.5em;
-      margin: 0.5em;
+    input[type="text"] {
+      width: 90%;
+      font-size: 1.5em;
+      padding: 0.8em;
+      margin-bottom: 1em;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 90%;
+      font-size: 1.5em;
+      padding: 0.8em;
+      border: none;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
+    }
+    button:active {
+      background-color: #0056b3;
     }
     #barcodeArea {
       flex-grow: 1;
@@ -67,13 +87,12 @@
       JsBarcode("#barcode", id, {
         format: "CODE128",
         displayValue: true,
-        fontSize: 24,
+        fontSize: 28,
         height: 120,
         margin: 0
       });
     }
 
-    // 初期表示（保存済みIDがあれば）
     const savedId = localStorage.getItem("karute_id");
     if (savedId) {
       document.getElementById("idInput").value = savedId;
